@@ -14,8 +14,8 @@ export class AppComponent {
   title = 'Kanban-fire';
   todo: Task[] = [
     {
-      title: 'Buy milk',
-      description: 'Go to the store and buy milk'
+      title: 'Buy croissant',
+      description: 'Go to the store and buy croissant'
     },
     {
       title: 'Create a Kanban app',
