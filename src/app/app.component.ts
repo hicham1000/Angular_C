@@ -19,7 +19,7 @@ export class AppComponent {
     },
     {
       title: 'Create a Kanban app',
-      description: 'Using Firebase and Angular create a Kanban app!'
+      description: 'Using Firebase'
     }
   ]
   inProgress: Task[] = [];
@@ -38,7 +38,27 @@ export class AppComponent {
       .afterClosed()
       .subscribe((result: TaskDialogResult) => this.todo.push(result.task));
   }
-  editTask(list: string, task: Task): void { }
+  editTask(list: 'done' | 'todo' | 'inProgress', task: Task): void {
+    const dialogRef = this.dialog.open(TaskDialogComponent, {
+      width: '270px',
+      data: {
+        task,
+        enableDelete: true,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: TaskDialogResult | undefined) => {
+      if (!result) {
+        return;
+      }
+      const dataList = this[list];
+      const taskIndex = dataList.indexOf(task);
+      if (result.delete) {
+        dataList.splice(taskIndex, 1);
+      } else {
+        dataList[taskIndex] = task;
+      }
+    });
+  }
 
   drop(event: CdkDragDrop<Task[] | any>): void {
     if (event.previousContainer === event.container) {
